@@ -1,1 +1,154 @@
-# showcase-edubridge
+# 📖 Narasi Proyek
+
+## Latar Belakang
+
+Di tahun 2026, industri teknologi bergerak lebih cepat dari sebelumnya. Setiap bulan muncul tools baru, framework baru, dan role baru yang belum ada dalam kurikulum kampus. Sementara itu, mahasiswa menghabiskan 3-4 tahun mengikuti matakuliah yang dirancang bertahun-tahun lalu — dan ketika lulus, mereka sering tidak tahu persis *skill apa yang sudah mereka punya* dan *skill apa yang masih kurang* untuk bersaing di pasar kerja.
+
+Itulah masalah yang ingin diselesaikan EduBridge-AI.
+
+Idenya sederhana: setiap mahasiswa punya transkrip nilai yang mencatat seluruh perjalanan akademiknya. Transkrip itu bukan hanya dokumen administratif — di dalamnya tersimpan *bukti kompetensi* yang bisa dianalisis. Matakuliah Basis Data membuktikan kemampuan SQL. Matakuliah Pemrograman Web membuktikan kemampuan JavaScript dan HTML. Matakuliah Kecerdasan Buatan membuktikan eksposur terhadap machine learning.
+
+EduBridge-AI membaca transkrip itu, memetakannya ke skill taxonomy industri, membandingkannya dengan kebutuhan job role target, lalu menghasilkan peta jalan belajar yang personal dan actionable.
+
+---
+
+## Mengapa Dibangun Seperti Ini
+
+Ada satu keputusan desain yang paling sering ditanyakan: *mengapa Gap Analyzer tidak menggunakan AI?*
+
+Jawabannya sederhana — karena hasil analisisnya harus bisa dijelaskan.
+
+Kalau seseorang mendapat match score 74% untuk posisi Backend Developer, mereka berhak tahu *mengapa* angkanya 74%, bukan 80% atau 60%. Kalau menggunakan LLM untuk kalkulasi ini, jawabannya bisa berubah setiap kali dan tidak bisa diverifikasi. Dengan formula deterministik berbasis bobot, setiap angka bisa ditelusuri sampai ke akarnya: skill mana yang sudah dipunya, berapa confidence-nya berdasarkan nilai akademik, dan berapa bobot tiap skill berdasarkan tingkat kepentingannya di industri.
+
+AI (Gemini) digunakan hanya untuk hal yang memang tidak bisa diformulasi — mengubah data terstruktur menjadi narasi yang personal, menentukan urutan belajar yang mempertimbangkan prerequisite antar skill, dan memberikan saran yang kontekstual berdasarkan profil mahasiswa.
+
+Ini adalah prinsip penggunaan AI yang bertanggung jawab: gunakan AI untuk augmentasi kreativitas, bukan untuk menggantikan logika yang seharusnya transparan.
+
+---
+
+## Tantangan yang Dihadapi
+
+Tantangan terbesar bukan di integrasi AI — melainkan di **PDF parsing**.
+
+Setiap universitas punya format transkrip yang berbeda. Transkrip Telkom University misalnya, menampilkan nama matakuliah dalam dua baris terpisah (Bahasa Indonesia di atas, Bahasa Inggris di bawah), diikuti SKS dan nilai di baris berikutnya. Regex biasa tidak bisa menangani pola multi-baris seperti ini.
+
+Solusinya adalah membangun *state machine parser* yang membaca baris per baris dan mengenali transisi antar elemen: kode matakuliah → nama Indonesia → nama Inggris → SKS → nilai. Sistem juga dilengkapi auto-detection format — ketika mendeteksi keyword tertentu, parser khusus diaktifkan secara otomatis.
+
+Tantangan lain muncul di web scraping. Pendekatan awal menggunakan Playwright untuk scraping dynamic content, namun Playwright tidak bisa berjalan di Windows karena keterbatasan asyncio event loop. Solusinya: beralih ke httpx + BeautifulSoup yang cross-platform, dan memanfaatkan JSON API Kalibrr yang lebih stabil dari scraping HTML.
+
+---
+
+# 🛠️ Teknologi yang Digunakan
+
+## Backend
+
+| Teknologi | Versi | Kegunaan |
+|-----------|-------|----------|
+| **Python** | 3.11+ | Bahasa utama backend |
+| **FastAPI** | 0.110 | Web framework — async, auto Swagger docs |
+| **SQLAlchemy** | 2.0 | ORM — database access layer |
+| **Alembic** | 1.13 | Database migration management |
+| **MySQL** | 8.0 | Database production |
+| **PyMuPDF** | 1.24 | PDF parsing dan ekstraksi teks |
+| **python-jose** | 3.3 | JWT token generation dan verification |
+| **passlib + bcrypt** | 1.7 | Password hashing |
+| **pydantic-settings** | 2.2 | Environment variable management |
+| **Google Generative AI** | 0.7 | Gemini API client |
+| **httpx** | 0.27 | Async HTTP client untuk scraping |
+| **BeautifulSoup4** | 4.12 | HTML parsing untuk web scraping |
+| **pytest** | 8.1 | Unit testing framework |
+
+## Frontend
+
+| Teknologi | Versi | Kegunaan |
+|-----------|-------|----------|
+| **Next.js** | 14 (App Router) | React framework — SSR, file-based routing |
+| **TypeScript** | 5.x | Type safety |
+| **Tailwind CSS** | 3.x | Utility-first styling |
+| **Zustand** | 4.x | Lightweight state management (auth) |
+| **Axios** | 1.x | HTTP client dengan interceptor JWT otomatis |
+| **Recharts** | 2.x | Visualisasi skill gap chart |
+| **Lucide React** | 0.383 | Icon library |
+
+## Infrastructure & Tools
+
+| Teknologi | Kegunaan |
+|-----------|----------|
+| **Railway** | Deployment backend + MySQL database |
+| **Vercel** | Deployment frontend — CDN global |
+| **GitHub** | Version control + CI/CD trigger |
+| **Nixpacks** | Build system di Railway |
+| **Alembic** | Auto-run migration saat deployment |
+
+## AI & Data
+
+| Komponen | Detail |
+|----------|--------|
+| **LLM Provider** | Google Gemini API (gemini-2.0-flash) |
+| **Temperature** | 0.3 — rendah untuk output yang konsisten |
+| **Pendekatan** | Structured Prompt Engineering (bukan RAG) |
+| **Skill Taxonomy** | 40 skills: technical, soft, tool |
+| **Job Roles** | 10 role industri teknologi Indonesia |
+| **Course Catalog** | Coursera, Dicoding, freeCodeCamp, Kaggle, Udemy, Google, AWS |
+| **Job Data Source** | Kalibrr (JSON API + HTML fallback) |
+
+---
+
+# 🗺️ Rencana Progress ke Depan
+
+EduBridge-AI dirancang sebagai sistem yang bisa terus berkembang. Berikut roadmap pengembangan yang direncanakan berdasarkan prioritas.
+
+## Jangka Pendek *(1-2 bulan ke depan)*
+
+**🔀 Merge Branch Web Scraping**
+Branch `feature/web-scraping` yang sudah selesai dikembangkan akan di-merge ke `main` setelah melalui testing menyeluruh. Ini akan mengaktifkan fitur hybrid data — job requirements tidak lagi hanya dari dataset statis, tapi diperbarui secara berkala dari data scraping Kalibrr.
+
+**📊 Perluasan Job Role Coverage**
+Saat ini hanya mencakup 10 job role umum. Akan ditambahkan role yang lebih spesifik seperti MLOps Engineer, Cloud Architect, Mobile Developer (iOS/Android), QA Engineer, dan Business Intelligence Analyst.
+
+**🎓 Dukungan Format Transkrip Lebih Banyak**
+Parser saat ini sudah handle format Telkom University dan format umum. Akan ditambahkan parser khusus untuk universitas besar lain di Indonesia: UI, ITB, UGM, ITS, Binus — masing-masing punya format yang berbeda.
+
+**📧 Notifikasi Email**
+Setelah analisis selesai, sistem mengirimkan ringkasan hasil dan roadmap ke email mahasiswa dalam format yang bisa disimpan.
+
+## Jangka Menengah *(3-6 bulan ke depan)*
+
+**✅ Sistem Tracking Progress Belajar**
+Mahasiswa bisa menandai kursus yang sudah selesai, dan sistem akan menghitung ulang match score secara otomatis. Ini mengubah EduBridge-AI dari alat analisis satu kali menjadi *learning companion* yang berkelanjutan.
+
+**📈 Validasi Gap Analysis dengan Expert**
+Match score dan skill requirements akan divalidasi dengan melibatkan praktisi industri (senior developer, HR tech company) untuk memastikan bobot dan requirement mencerminkan kebutuhan nyata. Ini akan meningkatkan kredibilitas angka yang dihasilkan sistem.
+
+**🔔 Notifikasi Job Match**
+Ketika ada lowongan pekerjaan baru dari scraping yang match score-nya di atas threshold tertentu (misal >70%), sistem otomatis notifikasi mahasiswa yang profilnya sesuai.
+
+**📱 Mobile App**
+Versi mobile menggunakan React Native atau Flutter agar mahasiswa bisa akses analisis dan roadmap mereka kapan saja dari smartphone.
+
+## Jangka Panjang *(6+ bulan ke depan)*
+
+**🏫 Dashboard Institusi**
+Panel khusus untuk program studi atau career center kampus — menampilkan agregat data: skill gap paling umum di angkatan tertentu, job role yang paling banyak ditarget, distribusi match score per prodi. Ini membantu kampus membuat keputusan berbasis data dalam merancang kurikulum.
+
+**🔄 Integrasi Platform Belajar**
+Integrasi langsung dengan API Dicoding, Coursera, dan platform lain untuk tracking progress kursus secara otomatis — tanpa perlu input manual dari mahasiswa.
+
+**🤝 Job Marketplace Integration**
+Koneksi langsung ke platform rekrutmen (Glints, Kalibrr, LinkedIn) sehingga mahasiswa bisa apply ke lowongan yang sesuai profil skill mereka langsung dari dashboard EduBridge-AI.
+
+**🧪 A/B Testing Roadmap**
+Membandingkan efektivitas berbagai strategi roadmap — apakah mahasiswa yang mengikuti urutan belajar tertentu lebih cepat mencapai match score yang ditargetkan? Ini membutuhkan data longitudinal dari pengguna nyata.
+
+**🌏 Ekspansi ke Negara Lain**
+Adaptasi sistem untuk pasar kerja teknologi di negara ASEAN lain dengan menambahkan job market data dan skill taxonomy yang relevan per negara.
+
+---
+
+## Catatan Pengembang
+
+Proyek ini dibangun dalam satu bulan sebagai portofolio dengan pendekatan yang mengutamakan keputusan arsitektur yang solid di atas kecepatan pengerjaan. Setiap komponen dirancang dengan separation of concerns yang jelas, setiap keputusan teknologi punya alasan yang bisa dipertanggungjawabkan, dan setiap bug yang ditemukan selama development dijadikan pembelajaran yang terdokumentasi.
+
+Masih banyak yang bisa ditingkatkan — validasi empiris match score, coverage format transkrip, dan fitur tracking progress adalah tiga hal paling mendesak. Tapi fondasi arsitekturalnya sudah dirancang untuk mendukung semua pengembangan tersebut tanpa perlu rebuild dari awal.
+
+> *"Bangun dari dalam ke luar — core logic dulu, baru UI. Dan pastikan setiap keputusan bisa dijelaskan."*
