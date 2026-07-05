@@ -8,34 +8,6 @@ Idenya sederhana: setiap mahasiswa punya transkrip nilai yang mencatat seluruh p
 
 EduBridge-AI membaca transkrip itu, memetakannya ke skill taxonomy industri, membandingkannya dengan kebutuhan job role target, lalu menghasilkan peta jalan belajar yang personal dan actionable.
 
----
-
-## Mengapa Dibangun Seperti Ini
-
-Ada satu keputusan desain yang paling sering ditanyakan: *mengapa Gap Analyzer tidak menggunakan AI?*
-
-Jawabannya sederhana — karena hasil analisisnya harus bisa dijelaskan.
-
-Kalau seseorang mendapat match score 74% untuk posisi Backend Developer, mereka berhak tahu *mengapa* angkanya 74%, bukan 80% atau 60%. Kalau menggunakan LLM untuk kalkulasi ini, jawabannya bisa berubah setiap kali dan tidak bisa diverifikasi. Dengan formula deterministik berbasis bobot, setiap angka bisa ditelusuri sampai ke akarnya: skill mana yang sudah dipunya, berapa confidence-nya berdasarkan nilai akademik, dan berapa bobot tiap skill berdasarkan tingkat kepentingannya di industri.
-
-AI (Gemini) digunakan hanya untuk hal yang memang tidak bisa diformulasi — mengubah data terstruktur menjadi narasi yang personal, menentukan urutan belajar yang mempertimbangkan prerequisite antar skill, dan memberikan saran yang kontekstual berdasarkan profil mahasiswa.
-
-Ini adalah prinsip penggunaan AI yang bertanggung jawab: gunakan AI untuk augmentasi kreativitas, bukan untuk menggantikan logika yang seharusnya transparan.
-
----
-
-## Tantangan yang Dihadapi
-
-Tantangan terbesar bukan di integrasi AI — melainkan di **PDF parsing**.
-
-Setiap universitas punya format transkrip yang berbeda. Transkrip Telkom University misalnya, menampilkan nama matakuliah dalam dua baris terpisah (Bahasa Indonesia di atas, Bahasa Inggris di bawah), diikuti SKS dan nilai di baris berikutnya. Regex biasa tidak bisa menangani pola multi-baris seperti ini.
-
-Solusinya adalah membangun *state machine parser* yang membaca baris per baris dan mengenali transisi antar elemen: kode matakuliah → nama Indonesia → nama Inggris → SKS → nilai. Sistem juga dilengkapi auto-detection format — ketika mendeteksi keyword tertentu, parser khusus diaktifkan secara otomatis.
-
-Tantangan lain muncul di web scraping. Pendekatan awal menggunakan Playwright untuk scraping dynamic content, namun Playwright tidak bisa berjalan di Windows karena keterbatasan asyncio event loop. Solusinya: beralih ke httpx + BeautifulSoup yang cross-platform, dan memanfaatkan JSON API Kalibrr yang lebih stabil dari scraping HTML.
-
----
-
 # 🛠️ Teknologi yang Digunakan
 
 ## Backend
@@ -113,4 +85,7 @@ Proyek ini dibangun dalam satu bulan sebagai portofolio dengan pendekatan yang m
 
 Masih banyak yang bisa ditingkatkan — validasi empiris match score, coverage format transkrip, dan fitur tracking progress adalah tiga hal paling mendesak. Tapi fondasi arsitekturalnya sudah dirancang untuk mendukung semua pengembangan tersebut tanpa perlu rebuild dari awal.
 
-> *"Bangun dari dalam ke luar — core logic dulu, baru UI. Dan pastikan setiap keputusan bisa dijelaskan."*
+## github repository:
+- Frontend : https://github.com/Fadilyas-Fathuris/edubridge-frontend.git
+- Backend : https://github.com/Fadilyas-Fathuris/edubridge-backend.git
+
