@@ -1,5 +1,3 @@
-# 📖 Narasi Proyek
-
 ## Latar Belakang
 
 Di tahun 2026, industri teknologi bergerak lebih cepat dari sebelumnya. Setiap bulan muncul tools baru, framework baru, dan role baru yang belum ada dalam kurikulum kampus. Sementara itu, mahasiswa menghabiskan 3-4 tahun mengikuti matakuliah yang dirancang bertahun-tahun lalu — dan ketika lulus, mereka sering tidak tahu persis *skill apa yang sudah mereka punya* dan *skill apa yang masih kurang* untuk bersaing di pasar kerja.
