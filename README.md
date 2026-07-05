@@ -98,10 +98,13 @@ Tantangan lain muncul di web scraping. Pendekatan awal menggunakan Playwright un
 
 EduBridge-AI dirancang sebagai sistem yang bisa terus berkembang. Berikut roadmap pengembangan yang direncanakan berdasarkan prioritas.
 
-**OCR & AI Skill Extractor** menggunakan **PyMuPDF**, **pdfplumber**, dan **GPT-4o-mini** untuk menganalisis transkrip akademik secara otomatis serta mengekstraksi keterampilan yang dimiliki mahasiswa.
-**Adaptive Diagnostic Test** yang didukung oleh **Item Response Theory (IRT 2-PL)** untuk mengevaluasi kompetensi dan tingkat penguasaan pengetahuan mahasiswa saat ini, sehingga membantu mengidentifikasi kekuatan, kelemahan, serta area yang perlu ditingkatkan.
-**Enhanced Skill-Gap Dashboard** yang memanfaatkan **Vector Embeddings** dan **Cosine Similarity** untuk membandingkan keterampilan mahasiswa dengan kebutuhan industri serta memberikan rekomendasi pembelajaran yang relevan.
-**AI Career Chatbot** untuk konsultasi karier, bantuan penyusunan CV, serta dukungan rujukan ke **Career Development Center (CDC)** melalui pendekatan **structured LLM prompting**.
+- **OCR & AI Skill Extractor** menggunakan **PyMuPDF**, **pdfplumber**, dan **GPT-4o-mini** untuk menganalisis transkrip akademik secara otomatis serta mengekstraksi keterampilan yang dimiliki mahasiswa.
+
+- **Adaptive Diagnostic Test** yang didukung oleh **Item Response Theory (IRT 2-PL)** untuk mengevaluasi kompetensi dan tingkat penguasaan pengetahuan mahasiswa saat ini, sehingga membantu mengidentifikasi kekuatan, kelemahan, serta area yang perlu ditingkatkan.
+  
+- **Enhanced Skill-Gap Dashboard** yang memanfaatkan **Vector Embeddings** dan **Cosine Similarity** untuk membandingkan keterampilan mahasiswa dengan kebutuhan industri serta memberikan rekomendasi pembelajaran yang relevan.
+  
+- **AI Career Chatbot** untuk konsultasi karier, bantuan penyusunan CV, serta dukungan rujukan ke **Career Development Center (CDC)** melalui pendekatan **structured LLM prompting**.
 
 Proyek ini menjadi kesempatan yang sangat berharga untuk mendalami **full-stack development**, **perancangan arsitektur sistem**, **integrasi kecerdasan buatan (AI)**, serta **pengembangan backend yang skalabel**, sekaligus menghadirkan solusi terhadap tantangan nyata yang dihadapi oleh mahasiswa dalam mempersiapkan karier mereka.
 
