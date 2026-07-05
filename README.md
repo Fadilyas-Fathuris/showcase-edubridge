@@ -98,52 +98,13 @@ Tantangan lain muncul di web scraping. Pendekatan awal menggunakan Playwright un
 
 EduBridge-AI dirancang sebagai sistem yang bisa terus berkembang. Berikut roadmap pengembangan yang direncanakan berdasarkan prioritas.
 
-## Jangka Pendek *(1-2 bulan ke depan)*
+**OCR & AI Skill Extractor** menggunakan **PyMuPDF**, **pdfplumber**, dan **GPT-4o-mini** untuk menganalisis transkrip akademik secara otomatis serta mengekstraksi keterampilan yang dimiliki mahasiswa.
+**Adaptive Diagnostic Test** yang didukung oleh **Item Response Theory (IRT 2-PL)** untuk mengevaluasi kompetensi dan tingkat penguasaan pengetahuan mahasiswa saat ini, sehingga membantu mengidentifikasi kekuatan, kelemahan, serta area yang perlu ditingkatkan.
+**Enhanced Skill-Gap Dashboard** yang memanfaatkan **Vector Embeddings** dan **Cosine Similarity** untuk membandingkan keterampilan mahasiswa dengan kebutuhan industri serta memberikan rekomendasi pembelajaran yang relevan.
+**AI Career Chatbot** untuk konsultasi karier, bantuan penyusunan CV, serta dukungan rujukan ke **Career Development Center (CDC)** melalui pendekatan **structured LLM prompting**.
 
-**🔀 Merge Branch Web Scraping**
-Branch `feature/web-scraping` yang sudah selesai dikembangkan akan di-merge ke `main` setelah melalui testing menyeluruh. Ini akan mengaktifkan fitur hybrid data — job requirements tidak lagi hanya dari dataset statis, tapi diperbarui secara berkala dari data scraping Kalibrr.
+Proyek ini menjadi kesempatan yang sangat berharga untuk mendalami **full-stack development**, **perancangan arsitektur sistem**, **integrasi kecerdasan buatan (AI)**, serta **pengembangan backend yang skalabel**, sekaligus menghadirkan solusi terhadap tantangan nyata yang dihadapi oleh mahasiswa dalam mempersiapkan karier mereka.
 
-**📊 Perluasan Job Role Coverage**
-Saat ini hanya mencakup 10 job role umum. Akan ditambahkan role yang lebih spesifik seperti MLOps Engineer, Cloud Architect, Mobile Developer (iOS/Android), QA Engineer, dan Business Intelligence Analyst.
-
-**🎓 Dukungan Format Transkrip Lebih Banyak**
-Parser saat ini sudah handle format Telkom University dan format umum. Akan ditambahkan parser khusus untuk universitas besar lain di Indonesia: UI, ITB, UGM, ITS, Binus — masing-masing punya format yang berbeda.
-
-**📧 Notifikasi Email**
-Setelah analisis selesai, sistem mengirimkan ringkasan hasil dan roadmap ke email mahasiswa dalam format yang bisa disimpan.
-
-## Jangka Menengah *(3-6 bulan ke depan)*
-
-**✅ Sistem Tracking Progress Belajar**
-Mahasiswa bisa menandai kursus yang sudah selesai, dan sistem akan menghitung ulang match score secara otomatis. Ini mengubah EduBridge-AI dari alat analisis satu kali menjadi *learning companion* yang berkelanjutan.
-
-**📈 Validasi Gap Analysis dengan Expert**
-Match score dan skill requirements akan divalidasi dengan melibatkan praktisi industri (senior developer, HR tech company) untuk memastikan bobot dan requirement mencerminkan kebutuhan nyata. Ini akan meningkatkan kredibilitas angka yang dihasilkan sistem.
-
-**🔔 Notifikasi Job Match**
-Ketika ada lowongan pekerjaan baru dari scraping yang match score-nya di atas threshold tertentu (misal >70%), sistem otomatis notifikasi mahasiswa yang profilnya sesuai.
-
-**📱 Mobile App**
-Versi mobile menggunakan React Native atau Flutter agar mahasiswa bisa akses analisis dan roadmap mereka kapan saja dari smartphone.
-
-## Jangka Panjang *(6+ bulan ke depan)*
-
-**🏫 Dashboard Institusi**
-Panel khusus untuk program studi atau career center kampus — menampilkan agregat data: skill gap paling umum di angkatan tertentu, job role yang paling banyak ditarget, distribusi match score per prodi. Ini membantu kampus membuat keputusan berbasis data dalam merancang kurikulum.
-
-**🔄 Integrasi Platform Belajar**
-Integrasi langsung dengan API Dicoding, Coursera, dan platform lain untuk tracking progress kursus secara otomatis — tanpa perlu input manual dari mahasiswa.
-
-**🤝 Job Marketplace Integration**
-Koneksi langsung ke platform rekrutmen (Glints, Kalibrr, LinkedIn) sehingga mahasiswa bisa apply ke lowongan yang sesuai profil skill mereka langsung dari dashboard EduBridge-AI.
-
-**🧪 A/B Testing Roadmap**
-Membandingkan efektivitas berbagai strategi roadmap — apakah mahasiswa yang mengikuti urutan belajar tertentu lebih cepat mencapai match score yang ditargetkan? Ini membutuhkan data longitudinal dari pengguna nyata.
-
-**🌏 Ekspansi ke Negara Lain**
-Adaptasi sistem untuk pasar kerja teknologi di negara ASEAN lain dengan menambahkan job market data dan skill taxonomy yang relevan per negara.
-
----
 
 ## Catatan Pengembang
 
